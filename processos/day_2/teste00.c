@@ -5,31 +5,31 @@
 #include <errno.h>
 
 int main(void) {
-
     int id1 = fork();
     int id2 = fork();
 
-    if(id1 == 0)
-    {
-        if(id2 == 0)
-        {
-            printf("Y Esse e o processo filho do filho ID = %d\n", getpid());
-            printf("X Esse e o processo pai do filho do filho ID = %d\n\n", getppid());
-        }else{
-            printf("X Esse e o processo filho do pai ID = %d\n", getpid());
-            printf("PAI Esse e o processo pai filho ID = %d\n\n", getppid());
+    if (id1 == 0) {
+        if (id2 == 0) {
+            printf("[Processo Y] Sou o filho do primeiro filho.\n");
+            printf("    PID: %d | PPID (pai): %d\n\n", getpid(), getppid());
+        } else {
+            printf("[Processo X] Sou o primeiro filho direto do pai.\n");
+            printf("    PID: %d | PPID (pai): %d\n\n", getpid(), getppid());
             wait(NULL);
         }
-    }else {
-        if(id2 == 0) {
-            printf("Z Esse e o processo filho do pai ID = %d\n", getpid());
-            printf("PAI Esse e o processo pai ID = %d\n\n", getppid());
-        }
-        else {
-            printf("PAI Esse e o processo pai ID = %d\n\n", getpid());
+    } else {
+        if (id2 == 0) {
+            printf("[Processo Z] Sou o segundo filho direto do pai.\n");
+            printf("    PID: %d | PPID (pai): %d\n\n", getpid(), getppid());
+        } else {
+            printf("[Processo PAI] Sou o processo pai original.\n");
+            printf("    PID: %d\n\n", getpid());
         }
     }
-    while( wait(NULL) != -1 || errno != ECHILD)
-        printf("Waited for a child to end");
-    return (0);
+
+    while (wait(NULL) != -1 || errno != ECHILD) {
+        printf("[Processo %d] Esperando um processo filho terminar...\n", getpid());
+    }
+
+    return 0;
 }
