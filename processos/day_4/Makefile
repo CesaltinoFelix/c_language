@@ -3,7 +3,7 @@ NAME = run
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
-SRC= teste00.c
+SRC= teste01.c
 
 OBJS=$(SRC:.c=.o)
 
